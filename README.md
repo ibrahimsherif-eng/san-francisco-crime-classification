@@ -473,12 +473,14 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 
 <div align="center">
 
+---
+
 ## 👤 Author
 
-**Ibrahim Sherif**
+**Ibrahim Sherif**  
 *Machine Learning Engineer*
 
-- GitHub: [@ibrahimsherif-eng](https://github.com/ibrahimsherif-eng)
+GitHub: [@ibrahimsherif-eng](https://github.com/ibrahimsherif-eng)
 
 Built as a graduation project for the **University Machine Learning course**.
 
