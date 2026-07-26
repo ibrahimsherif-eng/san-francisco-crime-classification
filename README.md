@@ -152,88 +152,72 @@ This repository includes a complete set of visual assets documenting the analysi
 
 ## 📊 Exploratory Data Analysis
 
-Exploratory Data Analysis (EDA) was performed to understand the distribution of crime categories, uncover temporal and spatial patterns, and inform feature engineering decisions ahead of modeling.
+Exploratory Data Analysis (EDA) was conducted to better understand the dataset, identify hidden patterns, examine class imbalance, analyze temporal and spatial crime distributions, and support feature engineering decisions before model development.
 
 <p align="center">
-  <img src="images/eda1.png" width="85%" alt="EDA 1">
+  <img src="images/eda_overview.png" width="90%" alt="EDA Overview">
 </p>
 
-*Distribution of crime categories, highlighting the severe class imbalance present in the dataset.*
-
-<p align="center">
-  <img src="images/eda2.png" width="85%" alt="EDA 2">
-</p>
-
-*Patterns in crime occurrences across key dimensions such as time or location, used to guide feature engineering decisions.*
-
-<p align="center">
-  <img src="images/eda_overview.png" width="85%" alt="EDA Overview">
-</p>
-
-*A high-level overview of the dataset's structure, summarizing the key variables and distributions explored during analysis.*
+*Comprehensive overview of the exploratory analysis, summarizing the main characteristics of the San Francisco Crime dataset.*
 
 <p align="center">
   <img src="images/eda_crime_hour.png" width="85%" alt="Crime Distribution by Hour">
 </p>
 
-*Distribution of crime incidents by hour of day, revealing peak activity periods across the 24-hour cycle.*
+*Distribution of crime incidents throughout the day, highlighting peak crime hours and temporal patterns.*
 
 <p align="center">
   <img src="images/plot1_top15_categories.png" width="85%" alt="Top 15 Crime Categories">
 </p>
 
-*The 15 most frequent crime categories, illustrating the dominance of a small number of classes within the dataset.*
+*Top 15 crime categories, demonstrating the significant class imbalance present in the dataset.*
 
 <p align="center">
-  <img src="images/plot2_crimes_per_day.png" width="85%" alt="Crimes per Day">
+  <img src="images/plot2_crimes_per_day.png" width="85%" alt="Crimes by Day of Week">
 </p>
 
-*Daily crime volume across the observed period, offering insight into short-term trends and reporting consistency.*
+*Crime frequency across the days of the week, revealing recurring weekly trends.*
 
 <p align="center">
-  <img src="images/plot3_crimes_per_district.png" width="85%" alt="Crimes per District">
+  <img src="images/plot3_crimes_per_district.png" width="85%" alt="Crimes by Police District">
 </p>
 
-*Distribution of crime incidents across San Francisco police districts, highlighting geographic hotspots.*
+*Crime distribution across San Francisco police districts, identifying the areas with the highest incident density.*
 
 <p align="center">
   <img src="images/plot4_crime_by_hour.png" width="85%" alt="Crime by Hour">
 </p>
 
-*A closer look at hourly crime trends, reinforcing patterns identified in the earlier time-based analysis.*
+*Hourly crime distribution providing a more detailed view of temporal crime behavior.*
 
 <p align="center">
   <img src="images/plot5_crime_map.png" width="85%" alt="Crime Map">
 </p>
 
-*Geospatial visualization of crime incidents across the city, illustrating the spatial concentration of criminal activity.*
+*Geospatial visualization of crime incidents across San Francisco, illustrating the spatial concentration of criminal activity.*
 
----
+------
 
 ## 🧩 Principal Component Analysis (PCA)
 
-PCA was applied to reduce the dimensionality of the engineered feature space, helping to:
-- Minimize redundancy among correlated features.
-- Reduce noise and computational cost during training.
-- Enable visualization of class separability in a lower-dimensional space.
+Principal Component Analysis (PCA) was applied after feature engineering to reduce the dimensionality of the feature space while preserving as much information as possible. This helped to:
+
+- Reduce feature redundancy caused by correlated variables.
+- Lower computational complexity and training time.
+- Remove noise from the transformed feature space.
+- Analyze how much variance is retained by the selected principal components.
 
 <p align="center">
-  <img src="images/pca.png" width="85%" alt="PCA Visualization">
+  <img src="images/pca_analysis.png" width="90%" alt="PCA Dimensionality Reduction Analysis">
 </p>
 
-*Projection of the dataset onto principal components, illustrating the degree of overlap between crime categories.*
+*Analysis of the transformed feature space, showing the explained variance of each principal component alongside the cumulative explained variance used to determine the optimal number of retained components.*
 
 <p align="center">
-  <img src="images/pca_analysis.png" width="85%" alt="PCA Analysis">
+  <img src="images/plot6_pca_variance.png" width="85%" alt="Explained Variance Ratio">
 </p>
 
-*Extended analysis of the principal components, further illustrating class separability within the reduced feature space.*
-
-<p align="center">
-  <img src="images/plot6_pca_variance.png" width="85%" alt="PCA Explained Variance">
-</p>
-
-*Explained variance ratio across principal components, used to determine the number of components retained for modeling.*
+*Explained variance ratio for each principal component, illustrating how the dataset's information is distributed after dimensionality reduction.*
 
 ---
 
@@ -300,49 +284,70 @@ Monitoring the loss curve is essential for understanding how well the neural net
 
 ## 🧮 Confusion Matrices
 
-Confusion matrices provide a detailed, class-by-class view of model performance, revealing not just overall accuracy but *where* each model succeeds and where it tends to misclassify — an especially important lens given the severe class imbalance in this dataset.
+To better understand the strengths and weaknesses of each classifier, confusion matrices are presented before and after applying Principal Component Analysis (PCA). This comparison provides a detailed class-by-class evaluation, allowing the impact of dimensionality reduction on prediction performance to be assessed across all machine learning models.
 
-### Decision Tree
+---
 
-<p align="center">
-  <img src="images/tree_confusion_matrix.png" width="85%" alt="Decision Tree Confusion Matrix">
-</p>
+### 🌳 Decision Tree
 
-*The Decision Tree model shows strong performance on the most frequent crime categories but struggles to correctly classify rarer classes, a direct consequence of the underlying class imbalance.*
+| Without PCA | With PCA |
+|:-----------:|:--------:|
+| <img src="images/cm_decision_tree_original.png" width="100%" alt="Decision Tree Without PCA"> | <img src="images/cm_decision_tree_pca.png" width="100%" alt="Decision Tree With PCA"> |
 
-<p align="center">
-  <img src="images/cm_decision_tree_(original).png" width="85%" alt="Decision Tree Confusion Matrix (Original)">
-</p>
+*Comparison of the Decision Tree classifier before and after applying PCA.*
 
-*The original Decision Tree confusion matrix, offering an additional view of per-class prediction behavior prior to further refinement.*
+**📝 Interpretation:** The Decision Tree achieves **25.74%** test accuracy on the original features but drops to **24.31%** after PCA — a **-1.43%** decline. This suggests PCA's compressed components blur the axis-aligned splits the tree relies on to separate crime categories, slightly weakening its class-by-class discrimination. Both versions show a small train–test gap (**0.45–0.70%**), indicating the model generalizes reasonably well without severe overfitting.
 
-### Logistic Regression
+---
 
-<p align="center">
-  <img src="images/logistic_confusion_matrix.png" width="85%" alt="Logistic Regression Confusion Matrix">
-</p>
+### 📈 Logistic Regression
 
-*The Logistic Regression model exhibits a bias toward the majority classes, reflecting the impact of class imbalance on linear models.*
+| Without PCA | With PCA |
+|:-----------:|:--------:|
+| <img src="images/cm_logistic_regression_original.png" width="100%" alt="Logistic Regression Without PCA"> | <img src="images/cm_logistic_regression_pca.png" width="100%" alt="Logistic Regression With PCA"> |
 
-<p align="center">
-  <img src="images/cm_logistic_regression.png" width="85%" alt="Logistic Regression Confusion Matrix Detail">
-</p>
+*Comparison of Logistic Regression before and after dimensionality reduction using PCA.*
 
-*A detailed view of the Logistic Regression confusion matrix, further highlighting the model's tendency to favor dominant crime categories.*
+**📝 Interpretation:** Logistic Regression is essentially unaffected by PCA, holding steady at **21.50%** test accuracy in both cases with an overfit gap of just **0.01%**. Its low precision (**10.98%**) points to heavy confusion between visually and contextually similar crime categories, which is expected from a linear decision boundary applied to a highly multi-class, imbalanced dataset.
 
-### Neural Network Evaluation
+---
 
-<p align="center">
-  <img src="images/confusion_matrix_train.png" width="85%" alt="Training Confusion Matrix">
-</p>
+### ⚡ Support Vector Machine (SVM)
 
-*Confusion matrix on the training set, showing how well the Neural Network fits the data it was trained on.*
+| Without PCA | With PCA |
+|:-----------:|:--------:|
+| <img src="images/cm_svm_original.png" width="100%" alt="SVM Without PCA"> | <img src="images/cm_svm_pca.png" width="100%" alt="SVM With PCA"> |
 
-<p align="center">
-  <img src="images/confusion_matrix_test.png" width="85%" alt="Testing Confusion Matrix">
-</p>
+*Comparison of the Support Vector Machine classifier before and after applying PCA.*
 
-*Confusion matrix on the held-out test set, reflecting the model's real-world generalization performance and confirming the ~28% accuracy reported above.*
+**📝 Interpretation:** The SVM (LinearSVC) shows the lowest overall performance of the four models, at **21.30%** test accuracy regardless of PCA, with the lowest precision (**9.43%**) and F1-score (**10.44%**) in the comparison. As a linear classifier, it struggles similarly to Logistic Regression to separate the large number of overlapping crime classes, and PCA's dimensionality reduction neither helps nor hurts its already limited separability.
+
+---
+
+### 🧠 Artificial Neural Network (ANN)
+
+| Without PCA | With PCA |
+|:-----------:|:--------:|
+| <img src="images/cm_ann_test_original.png" width="100%" alt="ANN Without PCA"> | <img src="images/cm_ann_test_pca.png" width="100%" alt="ANN With PCA"> |
+
+*Confusion matrix for the Artificial Neural Network (evaluated on the test set) before and after applying PCA. The notebook's evaluation function computes a single confusion matrix per model run based on test-set predictions — no separate training-set confusion matrix is generated for any of the four models, including the ANN.*
+
+**📝 Interpretation:** The ANN is the best-performing model overall, reaching **26.78%** test accuracy on original features and improving slightly to **26.82%** with PCA (**+0.04%**). Its non-linear hidden layers (256 → 128 → 64) capture more complex patterns than the linear models, and the marginal overfit gap (**0.31–0.51%**) shows the network generalizes well without memorizing the training data.
+
+---
+
+## 📊 Performance Comparison
+
+| Model | Without PCA | With PCA | Change |
+|------|:-----------:|:--------:|:------:|
+| 🧠 Artificial Neural Network | **26.78%** | **26.82%** | ⬆️ +0.04% |
+| 🌳 Decision Tree | **25.74%** | **24.31%** | ⬇️ -1.43% |
+| 📈 Logistic Regression | **21.50%** | **21.50%** | ➖ 0.00% |
+| ⚡ Support Vector Machine | **21.30%** | **21.30%** | ➖ 0.00% |
+
+> **Summary:** PCA produced a slight improvement for the Artificial Neural Network, slightly reduced the Decision Tree's performance, and had virtually no impact on Logistic Regression or the Support Vector Machine. Overall, dimensionality reduction did not consistently improve classification accuracy across all models — the ANN remains the strongest classifier, while the two linear models (Logistic Regression and SVM) trail behind due to the dataset's non-linearly separable, highly multi-class nature.
+
+---
 
 ---
 
@@ -475,15 +480,16 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 
 ## 👤 Author
 
-**Ibrahim Sherif**
-*Machine Learning Engineer*
-
-- GitHub: [@ibrahimsherif-eng](https://github.com/ibrahimsherif-eng)
-
-Built as a graduation project for the **University Machine Learning course**.
-
 <div align="center">
 
-⭐ If you found this project useful, consider giving it a star!
+# Ibrahim Sherif
+
+**Machine Learning Engineer**
+
+[![GitHub](https://img.shields.io/badge/GitHub-ibrahimsherif--eng-181717?style=for-the-badge&logo=github)](https://github.com/ibrahimsherif-eng)
+
+Built as a graduation project for the **University Machine Learning** course.
+
+⭐ **If you found this project useful, consider giving it a star!**
 
 </div>
