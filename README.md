@@ -478,18 +478,24 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 
 <div align="center">
 
-## 👤 Author
+---
 
 <div align="center">
 
 # Ibrahim Sherif
 
-**Machine Learning Engineer**
+### Machine Learning Engineer
 
-[![GitHub](https://img.shields.io/badge/GitHub-ibrahimsherif--eng-181717?style=for-the-badge&logo=github)](https://github.com/ibrahimsherif-eng)
+<a href="https://github.com/ibrahimsherif-eng">
+<img src="https://img.shields.io/badge/GitHub-@ibrahimsherif--eng-181717?style=for-the-badge&logo=github">
+</a>
 
-Built as a graduation project for the **University Machine Learning** course.
+<img src="https://img.shields.io/badge/Machine%20Learning-Project-orange?style=for-the-badge">
 
-⭐ **If you found this project useful, consider giving it a star!**
+🎓 Graduation Project • University Machine Learning Course
+
+⭐ If you enjoyed this project, leave a Star!
 
 </div>
+
+---
